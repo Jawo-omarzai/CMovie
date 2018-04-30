@@ -1,5 +1,5 @@
 {
-    "name": "anax/mvc",
+    "name": "anax/movies",
     "type": "library",
     "description": "Webtemplate to create websites",
     "keywords": ["boilerplate", "framework", "mvc", "micro", "education"],
@@ -7,9 +7,9 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Mikael Roos",
-            "email": "me@mikaelroos.se",
-            "homepage": "http://mikaelroos.se",
+            "name": "Jawed Jahid",
+            "email": "jawed.jahid@mikaelroos.se",
+            "homepage": "",
             "role": "Developer"
         }
     ],
