@@ -15,15 +15,10 @@ class MoviesController implements \Anax\DI\IInjectionAware
 	public function initialize(){
 
 		$this->movies = new \Anax\Movies\Movie();
+		$this->flash = new \Anax\Flash\CFlashBasic();
 		$this->movies->setDI($this->di);
 	}
 
-
-	/**
-     * List all movies.
-     *
-     * @return void
-     */
 	public function listAction(){
 
 		$this->initialize();
@@ -39,12 +34,6 @@ class MoviesController implements \Anax\DI\IInjectionAware
 		]);
 	}
 
-	
-	/**
-     * Index Action List all movies.
-     *
-     * @return void
-     */
 	public function indexAction(){
 
 		$this->initialize();
@@ -59,12 +48,6 @@ class MoviesController implements \Anax\DI\IInjectionAware
 
 		]);
 	}
-	
-	/**
-     * Find movie by Id.
-     *
-     * @return void
-     */
 
 	public function idAction($id){
 
@@ -73,24 +56,18 @@ class MoviesController implements \Anax\DI\IInjectionAware
 
 		$properties = $all;
 		$name = $all->getProperties();
-
+		
 		$this->theme->setTitle("View Movie");
 		$this->views->add('movies/view-aMovie', [
 			'movies' => $properties->getProperties(),
-			'title' => '<h1 class="text-capitalize text-danger text-center">'.$name['title'].'</h1>'
+			'title' => '<h1 class="text-capitalize text-danger text-center">'.$name['title'].'</h1>',
 
 		]);
 	}
 
-
-	/**
-     * Add movie.
-     *
-     * @return void
-     */
 	public function addAction($title = null){
 
-		
+		$msg = $this->flash;
 		$this->initialize();
 		if(!isset($title)){
 
@@ -185,41 +162,41 @@ class MoviesController implements \Anax\DI\IInjectionAware
 
 			]);
 			
+			$msg = $this->flash->setMessage("Movie upploaded", "alert alert-success");
+
+			
+
+    		$url = $this->url->create('movies/id/' . $this->movies->id);
+			$this->response->redirect($url); // the redirect goes here
+			
     		
-			$url = $this->url->create('movies/id/' . $this->movies->id);
-    		$this->response->redirect($url);
 
-
+    		
 
 		//}
 		
 
 		
 		}
-		
 		$this->theme->setTitle('Add movie');
 		$this->views->add("movies/add",[
 			'title' => 'Add Movie',
 			'content' => $form->getHTML(),
-			'msg' => $this->flash->get(),
 		]);
 		
 
 
 }
 
-	/**
-     * Update a movie.
-     *
-     * @return void
-     */
 public function updateAction($id = null){
 
-	
+	if (!isset($id)) {
+        die("Missing id");
+    }
+
 	$this->initialize();
 
 	if(isset($id)){
-		echo $id;
 		if(is_numeric($id)){
 
 			$movie = $this->movies->find($id);
@@ -347,16 +324,11 @@ public function updateAction($id = null){
 
 
 
-	}
+}
 
 
 
 
-	/**
-     * Delete all movie.
-     *
-     * @return void
-     */
 	public function deleteAction($id = null){
 
 		if (!isset($id)) {
